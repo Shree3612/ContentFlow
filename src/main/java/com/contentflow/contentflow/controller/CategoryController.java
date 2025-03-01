@@ -27,22 +27,22 @@ public class CategoryController {
     }
 
     @PutMapping("/update/{categoryId}")
-    public ResponseEntity createCategory(@Valid @RequestBody CategoryRequest categoryRequest, @PathVariable("categoryId") int categoryId) {
+    public ResponseEntity<?> createCategory(@Valid @RequestBody CategoryRequest categoryRequest, @PathVariable("categoryId") int categoryId) {
         try{
-            return new ResponseEntity(categoryService.updateCategory(categoryRequest, categoryId), HttpStatus.CREATED);
+            return new ResponseEntity<CategoryResponse>(categoryService.updateCategory(categoryRequest, categoryId), HttpStatus.CREATED);
         }
         catch(CategoryNotFoundException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/get/{categoryId}")
-    public ResponseEntity getCategoryById(@PathVariable("categoryId") int categoryId) {
+    public ResponseEntity<?> getCategoryById(@PathVariable("categoryId") int categoryId) {
         try{
-            return new ResponseEntity(categoryService.getCategoryById(categoryId), HttpStatus.OK);
+            return new ResponseEntity<CategoryResponse>(categoryService.getCategoryById(categoryId), HttpStatus.OK);
         }
         catch(CategoryNotFoundException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -53,12 +53,12 @@ public class CategoryController {
     }
 
     @DeleteMapping("/delete/{categoryId}")
-    public ResponseEntity deleteUser(@PathVariable("categoryId") Integer categoryId) {
+    public ResponseEntity<String> deleteUser(@PathVariable("categoryId") Integer categoryId) {
         try{
-            return new ResponseEntity(categoryService.deleteCategory(categoryId), HttpStatus.OK);
+            return new ResponseEntity<String>(categoryService.deleteCategory(categoryId), HttpStatus.OK);
         }
         catch(CategoryNotFoundException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }

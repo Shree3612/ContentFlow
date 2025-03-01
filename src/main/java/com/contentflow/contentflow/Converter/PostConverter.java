@@ -16,7 +16,6 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 public class PostConverter {
 
     public static Post postDtoToPostEntity(PostRequest postRequest){

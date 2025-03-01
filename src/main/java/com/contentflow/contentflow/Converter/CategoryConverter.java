@@ -12,7 +12,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 public class CategoryConverter {
     public static Category categoryDtoToCategoryEntity(CategoryRequest categoryRequest){
         Category category = new Category();

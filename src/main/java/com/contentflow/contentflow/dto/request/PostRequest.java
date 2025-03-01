@@ -17,21 +17,4 @@ public class PostRequest {
     String title;
     @Size(min = 4, max = 1000, message = "content must be minimum 4 characters and maximum 1000 characters long")
     String content;
-
-    //lombok not working therefore created getters and setters
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 }

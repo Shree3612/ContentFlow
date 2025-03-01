@@ -12,7 +12,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 public class CommentConverter {
 
     public static Comment commentDtoToCommentEntity(CommentRequest commentRequest){

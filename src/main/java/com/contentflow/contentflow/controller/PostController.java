@@ -23,36 +23,36 @@ public class PostController {
     PostService postService;
 
     @PostMapping("/create/user/{userId}/category/{categoryId}")
-    public ResponseEntity createPost(@Valid @RequestBody PostRequest postRequest,
+    public ResponseEntity<?> createPost(@Valid @RequestBody PostRequest postRequest,
                                         @PathVariable Integer userId, @PathVariable Integer categoryId) {
             PostResponse postResponse = postService.createPost(postRequest, userId, categoryId);
-            return new ResponseEntity(postResponse, HttpStatus.CREATED);
+            return new ResponseEntity<PostResponse>(postResponse, HttpStatus.CREATED);
     }
 
     //get all posts of a user
     @GetMapping("/getAll/user/{userId}")
-    public ResponseEntity getPostsByUser(@PathVariable Integer userId) {
+    public ResponseEntity<?> getPostsByUser(@PathVariable Integer userId) {
         try {
-            return new ResponseEntity(postService.getPostsByUser(userId), HttpStatus.OK);
+            return new ResponseEntity<List<PostResponse>>(postService.getPostsByUser(userId), HttpStatus.OK);
         }
         catch(UserNotFoundException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     //get all posts of a category
     @GetMapping("/getAll/category/{categoryId}")
-    public ResponseEntity getPostsByCategory(@PathVariable Integer categoryId) {
+    public ResponseEntity<?> getPostsByCategory(@PathVariable Integer categoryId) {
         try {
-            return new ResponseEntity(postService.getPostsByCategory(categoryId), HttpStatus.OK);
+            return new ResponseEntity<List<PostResponse>>(postService.getPostsByCategory(categoryId), HttpStatus.OK);
         }
         catch(CategoryNotFoundException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity getAll(
+    public ResponseEntity<?> getAll(
             @RequestParam(value = "pageNumber", defaultValue = Constants.pageNumber, required = false) Integer pageNumber,
             @RequestParam(value = "pageSize", defaultValue = Constants.pageSize, required = false) Integer pageSize,
             @RequestParam(value = "sortBy", defaultValue = Constants.sortBy, required = false) String sortBy,
@@ -63,43 +63,43 @@ public class PostController {
     }
 
     @GetMapping("/get/{postId}")
-    public ResponseEntity getPostById(@PathVariable Integer postId){
+    public ResponseEntity<?> getPostById(@PathVariable Integer postId){
         try{
-            return new ResponseEntity (postService.getPostById(postId), HttpStatus.OK);
+            return new ResponseEntity<PostResponse> (postService.getPostById(postId), HttpStatus.OK);
         }
         catch(PostNotFoundException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @DeleteMapping("/delete/{postId}")
-    public ResponseEntity deletePost(@PathVariable Integer postId){
+    public ResponseEntity<String> deletePost(@PathVariable Integer postId){
         try{
-            return new ResponseEntity(postService.deletePost(postId), HttpStatus.OK);
+            return new ResponseEntity<String>(postService.deletePost(postId), HttpStatus.OK);
         }
         catch(PostNotFoundException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping("/update/{postId}")
-    public ResponseEntity updatePost(@Valid @RequestBody PostRequest postRequest, @PathVariable Integer postId) {
+    public ResponseEntity<?> updatePost(@Valid @RequestBody PostRequest postRequest, @PathVariable Integer postId) {
         try{
-            return new ResponseEntity(postService.updatePost(postRequest, postId), HttpStatus.OK);
+            return new ResponseEntity<PostResponse>(postService.updatePost(postRequest, postId), HttpStatus.OK);
         }
         catch(PostNotFoundException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/search/title")
-    public ResponseEntity searchPost(
+    public ResponseEntity<?> searchPost(
             @RequestParam(value = "keyWord") String keyWord
             ) {
         List<PostResponse> responses = postService.findByTitleContaining(keyWord);
         if (responses == null || responses.isEmpty()) {
-            return new ResponseEntity<>("Post-title containing this keyword does not exist", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>("Post-title containing this keyword does not exist", HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(responses, HttpStatus.OK);
+        return new ResponseEntity<List<PostResponse>>(responses, HttpStatus.OK);
     }
 }

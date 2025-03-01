@@ -21,45 +21,45 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/create")
-    public ResponseEntity createUser(@Valid @RequestBody UserRequest userRequest) {
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserRequest userRequest) {
             UserResponse response = userService.createUser(userRequest);
             return new ResponseEntity<UserResponse>(response, HttpStatus.CREATED);
     }
 
 
     @PutMapping("/update/{userId}")
-    public ResponseEntity updateUser(@Valid @RequestBody UserRequest userRequest, @PathVariable("userId") int userId) {
+    public ResponseEntity<?> updateUser(@Valid @RequestBody UserRequest userRequest, @PathVariable("userId") int userId) {
         try{
-            return new ResponseEntity(userService.updateUser(userRequest, userId), HttpStatus.CREATED);
+            return new ResponseEntity<UserResponse>(userService.updateUser(userRequest, userId), HttpStatus.CREATED);
         }
         catch(UserNotFoundException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/get/{userId}")
-    public ResponseEntity getUserById(@PathVariable("userId") int userId) {
+    public ResponseEntity<?> getUserById(@PathVariable("userId") int userId) {
         try{
-            return new ResponseEntity(userService.getUserById(userId), HttpStatus.OK);
+            return new ResponseEntity<UserResponse>(userService.getUserById(userId), HttpStatus.OK);
         }
         catch(UserNotFoundException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity getAllUser() {
+    public ResponseEntity<List<UserResponse>> getAllUser() {
         List<UserResponse> responses = userService.getAllUser();
         return new ResponseEntity<List<UserResponse>>(responses, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{userId}")
-    public ResponseEntity deleteUser(@PathVariable("userId") Integer userId) {
+    public ResponseEntity<?> deleteUser(@PathVariable("userId") Integer userId) {
         try{
-            return new ResponseEntity(userService.deleteUser(userId), HttpStatus.OK);
+            return new ResponseEntity<String>(userService.deleteUser(userId), HttpStatus.OK);
         }
         catch(UserNotFoundException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }

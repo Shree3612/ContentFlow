@@ -14,10 +14,8 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 @Component
 public class UserConverter {
-//    static ModelMapper modelMapper;
 
     public static User userDtoToUserEntity(UserRequest userRequest) {
         User user = new User();

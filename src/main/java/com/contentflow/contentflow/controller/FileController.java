@@ -41,7 +41,7 @@ public class FileController {
     String path;
 
     @PostMapping("/upload/{postId}")
-    public ResponseEntity fileUpload(
+    public ResponseEntity<?> fileUpload(
             @RequestParam("image")MultipartFile image,
             @PathVariable Integer postId
             ) throws IOException {

@@ -15,12 +15,4 @@ public class CommentRequest {
     @Size(max = 1000, message = "Comment must be less 1000 characters")
     String content;
 
-    //lombok not working therefore created getters and setters
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 }
